@@ -24,25 +24,27 @@ export class App extends Component {
   };
 
   componentDidMount() {
-    // console.log('App componentDidMount');
+    
     const contacts = localStorage.getItem('contacts');
     const parsedContacts = JSON.parse(contacts);
 
-    if (parsedContacts) {
+    if (parsedContacts !== null) {
       this.setState({ contacts: parsedContacts });
+      return;
     }
+
+    this.setState({ contacts: this.state.contacts });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log(prevState);
+   
 
     if (this.state.contacts !== prevState.contacts) {
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
 
-
-   addContact = (values, { resetForm }) => {
+  addContact = (values, { resetForm }) => {
     let newContact = values;
 
     const check = this.state.contacts.filter(
@@ -82,7 +84,6 @@ export class App extends Component {
       contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
-
 
   render() {
     return (
